@@ -6,7 +6,7 @@ import type { DropResult } from '@hello-pangea/dnd';
 import { InputPanel } from '../components/InputPanel';
 import { ShotCard } from '../components/ShotCard';
 import { useStoryboardStore } from '../store/useStoryboardStore';
-import { Download, Clapperboard, Loader2, Copy, Check, PenLine, Scissors, Save, X, Home, CloudLightning, FileArchive, Printer, ChevronRight, HardDriveDownload } from 'lucide-react';
+import { Download, Clapperboard, Loader2, Copy, Check, PenLine, Scissors, Save, X, Home, CloudLightning, FileArchive, Printer, ChevronRight } from 'lucide-react';
 
 export const Workspace: React.FC = () => {
   const { id } = useParams();
@@ -112,7 +112,6 @@ export const Workspace: React.FC = () => {
     window.print();
   };
 
-  // 样式预设
   const btnBase = "px-3.5 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 disabled:opacity-40 disabled:pointer-events-none";
   const btnGhost = `${btnBase} text-gray-400 hover:text-white hover:bg-white/10`;
   const btnPrimaryLight = (color: string) => `${btnBase} bg-${color}-500/10 text-${color}-400 hover:bg-${color}-500/20 hover:text-${color}-300`;
@@ -120,7 +119,6 @@ export const Workspace: React.FC = () => {
   return (
     <div className="h-screen bg-[#0a0a0a] text-gray-100 flex overflow-hidden font-sans relative">
       
-      {/* 弹窗遮罩层：保存项目 */}
       {isSaveModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm no-print">
           <div className="bg-[#141414] border border-white/10 p-6 rounded-2xl shadow-2xl w-[400px] flex flex-col gap-5 animate-in fade-in zoom-in-95 duration-200">
@@ -143,11 +141,8 @@ export const Workspace: React.FC = () => {
       <div className="no-print h-full"><InputPanel /></div>
       
       <main className="flex-1 h-full flex flex-col bg-gradient-to-br from-[#0a0a0a] to-[#111111] overflow-hidden">
-        
-        {/* === 顶部双层工具栏 === */}
         <div className="flex flex-col border-b border-white/5 bg-[#0a0a0a]/95 backdrop-blur-xl z-10 shrink-0 no-print">
           
-          {/* 第一排：项目层控制 (导航、标题、工程文件) */}
           <header className="h-[60px] px-8 flex justify-between items-center">
             <div className="flex items-center gap-3">
               <button onClick={() => navigate('/')} className="flex items-center gap-1.5 text-gray-400 hover:text-white transition-all text-sm font-medium bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg group">
@@ -182,7 +177,6 @@ export const Workspace: React.FC = () => {
             </div>
           </header>
 
-          {/* 第二排：资产层控制 (数据统计、渲染交付物导出) */}
           <div className="h-[52px] px-8 flex justify-between items-center bg-white/[0.01] border-t border-white/5">
             <div className="flex items-center gap-4 text-xs font-medium text-gray-500">
               <div className="flex items-center gap-1.5 bg-[#111] px-3 py-1.5 rounded-md border border-white/5">
@@ -197,32 +191,24 @@ export const Workspace: React.FC = () => {
 
             <div className="flex items-center gap-2">
               <span className="text-xs text-gray-600 mr-2 font-medium">交付导出：</span>
-              
               <button onClick={handleCopyAllPrompts} disabled={!shots.length} className={btnPrimaryLight('blue')}>
                 {copiedAll ? <Check size={14} /> : <Copy size={14} />} {copiedAll ? "已复制" : "一键提取 Prompt"}
               </button>
-              
               <button onClick={handleExportCSV} disabled={!shots.length} className={btnGhost}>
                 <Download size={14} /> CSV 表格
               </button>
-              
               <button onClick={handleExportEDL} disabled={!shots.length} className={btnPrimaryLight('indigo')} title="可直接拖入 Pr/达芬奇 生成空轨">
                 <Scissors size={14} /> EDL 剪辑序列
               </button>
-              
               <div className="w-px h-4 bg-white/10 mx-1"></div>
-              
               <button onClick={handlePrintPDF} disabled={!shots.length} className="px-3.5 py-1.5 bg-white text-black hover:bg-gray-200 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 disabled:opacity-40 disabled:pointer-events-none shadow-sm">
                 <Printer size={14} /> 打印 PDF 报表
               </button>
             </div>
           </div>
-
         </div>
-        {/* === 双层工具栏 结束 === */}
 
         <div className="flex-1 overflow-y-auto p-10 pl-16 pb-32">
-          {/* PDF 打印时专属的标题展示 */}
           <div className="hidden print:block mb-8 text-black border-b border-gray-300 pb-4">
             <h1 className="text-3xl font-bold">{currentProject.title}</h1>
             <p className="text-sm text-gray-600 mt-2">共 {shots.length} 镜 · 预估总时长 {shots.reduce((a, c) => a + c.duration, 0)} 秒</p>
