@@ -84,7 +84,7 @@ export const useStoryboardStore = create<StoryboardState>()(
 
         set({ isGenerating: true });
         try {
-          const response = await fetch('http://localhost:3000/api/generate-storyboard', {
+          const response = await fetch('/api/generate-storyboard', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ text: currentProject.originalText, characters: currentProject.characters })
@@ -109,7 +109,7 @@ export const useStoryboardStore = create<StoryboardState>()(
 
         set({ isRegeneratingShot: shotId });
         try {
-          const response = await fetch('http://localhost:3000/api/regenerate-shot', {
+          const response = await fetch('/api/regenerate-shot', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ script: currentProject.originalText, characters: currentProject.characters, shotData: targetShot })
